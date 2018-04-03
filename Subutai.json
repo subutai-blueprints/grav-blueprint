@@ -6,7 +6,7 @@
     "containers": [
         {
             "hostname": "${webContainerName}",
-            "template": "debian-stretch",
+            "template": "debian",
             "peer-criteria": "HTTP-GROUP",
             "size": "${containerSize}",
             "port-mapping": [
@@ -36,14 +36,6 @@
             {
                 "key": "domain_name",
                 "value": "${domainName}"
-            }, 
-            {
-                "key": "admin_user",
-                "value": "${adminUser}"
-            }, 
-            {
-                "key": "admin_pwd",
-                "value": "${adminPwd}"
             }
         ],
         "groups": [
