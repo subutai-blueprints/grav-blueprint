@@ -1,0 +1,30 @@
+---
+
+- hosts: all
+  gather_facts: false
+  remote_user: root
+  tasks: 
+    - name: Install PHP
+      apt:
+        name: php
+        state: present
+        allow_unauthenticated: yes
+
+    - name: Install Apache2
+      apt:
+        name: apache2
+        state: present
+        allow_unauthenticated: yes
+
+    - name: Create /var/www/html/grav
+      file:
+        path: /var/www/html/grav
+        recurse: yes
+        state: directory
+
+    - name: Unarchive a file that needs to be downloaded (added in 2.0)
+      unarchive:
+        src: https://getgrav.org/download/core/grav-admin/1.4.2
+        dest: /var/www/html/grav
+        remote_src: yes
+

@@ -1,0 +1,64 @@
+{
+  "name": "${environmentName}",
+  "description": "Grav CMS",
+  "containers": [ {
+      "hostname": "${webContainerName}",
+      "template": "debian",
+      "peer-criteria": "HTTP-GROUP",
+      "size": "${webContainerSize}",
+      "port-mapping": [
+        {
+          "protocol": "http",
+          "domain": "${domainName}",
+          "internal-port": "80",
+          "external-port": "80"
+        },
+        {
+          "protocol": "tcp",
+          "domain": "${domainName}",
+          "internal-port": "22",
+          "external-port": "1974"
+        }
+      ]
+    }
+  ],
+  "peer-criteria": [ 
+    {
+      "name": "HTTP-GROUP",
+      "max-price": "5",
+      "avg-cpu-load": "50",
+      "min-free-ram": "128",
+      "min-free-disk-space": "10"
+    }
+  ],
+  "ansible-configuration":{
+      "ansible-playbook": "config.yml"
+  },
+  "user-variables":
+  {
+    "environmentName": {
+      "description": "Enter the environment name",
+      "type": "string",
+      "default": "Grav",
+      "validation": "[a-zA-Z0-9]+"
+    },
+    "domainName": {
+      "description": "Enter the application domain name",
+      "type": "domain",
+      "default": "change.the.domain",
+      "validation": "[a-zA-Z0-9]+"
+    },
+    "webContainerName": {
+      "description": "Enter the container's hostname",
+      "type": "string",
+      "default": "apache",
+      "validation": "[a-zA-Z0-9]+"
+    },
+    "webContainerSize": {
+      "description": "Set the container size to SMALL, MEDIUM, or LARGE",
+      "type": "enum",
+      "default": "SMALL",
+      "validation": "SMALL,MEDIUM,LARGE"
+    }
+  }
+}
