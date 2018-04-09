@@ -78,10 +78,6 @@
     - php-pear
     - libyaml-dev
 
-  - name: PHP - Install YAML parser
-    become: true
-    shell: pecl install yaml-2.0.0
-
   - name: PHP - Set php.ini cgi.fix_pathinfo=0
     become: true
     replace:
@@ -185,7 +181,7 @@
       mode: 0644
       backup: yes
 
-  - name: GRAV - Copy {{ domain }} sites-available configuration
+  - name: GRAV - Copy sites-available configuration
     become: true
     template:
       src: etc/nginx/sites-available/default.j2
