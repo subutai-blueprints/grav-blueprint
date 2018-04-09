@@ -80,7 +80,9 @@
 
   - name: PHP - Install YAML parser
     become: true
-    shell: pecl install yaml-2.0.0
+    pear: 
+      name: yaml-2.0.0 
+      state: present
 
   - name: PHP - Set php.ini cgi.fix_pathinfo=0
     become: true
