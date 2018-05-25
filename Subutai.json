@@ -1,7 +1,7 @@
 {
     "name": "${environmentName}",
     "description": "Grav CMS + Admin",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "author": "https://github.com/efeefe",
     "containers": [
         {
