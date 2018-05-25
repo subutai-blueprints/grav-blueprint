@@ -80,9 +80,7 @@
 
   - name: PHP - Install YAML parser
     become: true
-    pear: 
-      name: yaml-2.0.0 
-      state: present
+    shell: echo "" | pecl install yaml-2.0.0 
 
   - name: PHP - Set php.ini cgi.fix_pathinfo=0
     become: true
@@ -187,11 +185,11 @@
       mode: 0644
       backup: yes
 
-  - name: GRAV - Copy {{ domain }} sites-available configuration
+  - name: GRAV - Copy sites-available configuration
     become: true
     template:
       src: etc/nginx/sites-available/default.j2
-      dest: /etc/nginx/sites-available/{{ domain }}
+      dest: /etc/nginx/sites-available/gravcms.conf
       owner: root
       group: root
       mode: 0644
@@ -201,8 +199,8 @@
     become: true
     file:
       state: link
-      src: /etc/nginx/sites-available/{{ domain }}
-      dest: /etc/nginx/sites-enabled/{{ domain }}
+      src: /etc/nginx/sites-available/gravcms.conf
+      dest: /etc/nginx/sites-enabled/gravcms.conf
       force: yes
 
   - name: GRAV - Unlink default configuration
