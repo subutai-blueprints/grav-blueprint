@@ -1,8 +1,8 @@
 {
     "name": "${environmentName}",
     "description": "Grav CMS + Admin",
-    "version": "1.0.3",
-    "author": "https://github.com/efeefe",
+    "version": "1.0.7",
+    "author": "https://github.com/liquuid",
     "containers": [
         {
             "hostname": "${webContainerName}",
@@ -26,17 +26,13 @@
         }
     ],
     "ansible-configuration": {
-        "source-url": "https://github.com/efeefe/grav-blueprint/archive/master.zip",
+        "source-url": "https://github.com/liquuid/grav-blueprint/archive/master.zip",
         "ansible-playbook": "config.yml",
         "extra-vars": [
             {
                 "key": "site_title",
                 "value": "${siteTitle}"
-            }, 
-            {
-                "key": "domain_name",
-                "value": "${domainName}"
-            }
+            } 
         ],
         "groups": [
             {
