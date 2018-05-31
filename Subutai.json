@@ -32,11 +32,7 @@
             {
                 "key": "site_title",
                 "value": "${siteTitle}"
-            }, 
-            {
-                "key": "domain_name",
-                "value": "${domainName}"
-            }
+            } 
         ],
         "groups": [
             {
