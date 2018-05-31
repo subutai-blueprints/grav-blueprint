@@ -1,14 +1,15 @@
 --- 
-- gather_facts: false
-  hosts: all
+
+- hosts: all
+  gather_facts: false
   remote_user: root
   tasks: 
 
-  - name: Update and upgrade packages
-    become: true
-    apt:
-      upgrade: dist
-      update_cache: yes
+  - name: Update
+    raw: apt-get -y --allow-unauthenticated update || true
+
+  - name: Update
+    raw: apt-get -y --allow-unauthenticated update || true
 
   - name: Install base packages
     become: true
@@ -81,7 +82,7 @@
   - name: PHP - Install YAML parser
     become: true
     shell: echo "" | pecl install yaml-2.0.0 
-
+        
   - name: PHP - Set php.ini cgi.fix_pathinfo=0
     become: true
     replace:
