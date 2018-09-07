@@ -25,7 +25,7 @@
         }
     ],
     "ansible-configuration": {
-        "source-url": "https://github.com/liquuid/grav-blueprint/archive/master.zip",
+        "source-url": "https://github.com/subutai-blueprints/grav-blueprint/archive/master.zip",
         "ansible-playbook": "config.yml",
         "extra-vars": [
             {
