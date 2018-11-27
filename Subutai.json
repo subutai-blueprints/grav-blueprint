@@ -11,10 +11,10 @@
             "size": "${containerSize}",
             "port-mapping": [
                 {
-                    "protocol": "http",
+                    "protocol": "https",
                     "domain": "${domainName}",
                     "internal-port": "80",
-                    "external-port": "80"
+                    "external-port": "443"
                 }
             ]
         }
@@ -29,8 +29,12 @@
         "ansible-playbook": "site.yml",
         "extra-vars": [
             {
-                "key": "site_title",
-                "value": "${siteTitle}"
+                "key": "admin_user",
+                "value": "${adminUser}"
+            },
+            {
+                "key": "admin_pwd",
+                "value": "${adminPwd}"
             }
         ],
         "groups": [
@@ -55,15 +59,22 @@
             "default": "change.the.domain",
             "validation": "[a-zA-Z0-9]+"
         },
-        "siteTitle": {
-            "description": "Enter the site's title",
-            "type": "string",
-            "default": "title"
-        },
         "webContainerName": {
             "description": "Enter the container's hostname",
             "type": "string",
             "default": "wp",
+            "validation": "[a-zA-Z0-9]+"
+        },
+        "adminUser": {
+            "description": "Enter the admin user",
+            "type": "string",
+            "default": "admin",
+            "validation": "[a-zA-Z0-9]+"
+        },
+        "adminPwd": {
+            "description": "Enter the admin password",
+            "type": "string",
+            "default": "admin",
             "validation": "[a-zA-Z0-9]+"
         },
         "containerSize": {

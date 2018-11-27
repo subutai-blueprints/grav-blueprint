@@ -2,6 +2,12 @@
 
 - hosts: grav
   remote_user: root
+
+  handlers:
+
+  - name: restart apache
+    service: name=apache2 state=restarted
+
   tasks: 
 
   - name: Disable dpkg fsync
@@ -17,10 +23,30 @@
       name: 
         - unzip
         - apache2
-        - php-7.0
-        - php-7.0-cli
+        - php7.0
+        - php7.0-cgi
+        - php7.0-mbstring
+        - php7.0-curl
+        - php7.0-ctype
+        - php7.0-gd
+        - php7.0-xml
+        - php7.0-zip
+        - php
         - sudo
+        - apache2-suexec-custom
+        - libapache2-mod-fcgid
       state: present
+    notify: restart apache
+
+  - name: Enable apache modules
+    shell: a2enmod {{ item }}
+    with_items:
+      - suexec
+      - fcgid
+      - mpm_prefork
+      - rewrite
+      - cgi
+    notify: restart apache
 
   - name: Create grav user
     user:
@@ -28,10 +54,60 @@
       group: users
       shell: /bin/bash
 
+  - name: Create fcgi directory
+    file: 
+      path: /home/grav/fcgi-bin
+      state: directory
+      owner: grav
+      group: users
+
+  - name: Copy fcgi
+    template:
+      src: files/php7.0.fcgi
+      dest: /home/grav/fcgi-bin/php7.0.fcgi
+      owner: grav
+      group: users
+      mode: "0755"
+    notify: restart apache
+
   - name: GRAV - Download Grav
     unarchive:
-      src: https://getgrav.org/download/core/grav-admin/latest
+      src: https://getgrav.org/download/core/grav/latest
       dest: /home/grav
       remote_src: yes
+      validate_certs: no
     become: yes
     become_user: grav
+
+  - name: Install admin module
+    shell: bin/gpm install -y admin
+    args:
+      chdir: /home/grav/grav
+    become: yes
+    become_user: grav
+
+  - name: Ensure user fold exist
+    file:
+      path: /home/grav/grav/user/accounts
+      owner: grav
+      group: users
+      state: directory
+
+  - name: Create admin user
+    template: 
+      src: files/admin.yaml
+      dest: /home/grav/grav/user/accounts/admin.yaml
+      owner: grav
+      group: users
+
+  - name: Update apache default.conf
+    template: 
+      src: files/default.conf
+      dest: /etc/apache2/sites-available/000-default.conf
+    notify: restart apache
+
+  - name: Configure apache suexec
+    template:
+      src: files/www-data
+      dest: /etc/apache2/suexec/www-data
+    notify: restart apache
