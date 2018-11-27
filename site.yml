@@ -38,6 +38,12 @@
       state: present
     notify: restart apache
 
+  - name: Disable apache modules
+    shell: a2dismod {{ item }}
+    with_items:
+      - mpm_event
+    notify: restart apache
+
   - name: Enable apache modules
     shell: a2enmod {{ item }}
     with_items:
