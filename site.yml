@@ -1,5 +1,8 @@
 --- 
 
+# Ansible playbook for grav blueprint
+
+
 - hosts: grav
   remote_user: root
 
@@ -92,7 +95,7 @@
     become: yes
     become_user: grav
 
-  - name: Ensure user fold exist
+  - name: Ensure user folder exist
     file:
       path: /home/grav/grav/user/accounts
       owner: grav
@@ -117,3 +120,5 @@
       src: files/www-data
       dest: /etc/apache2/suexec/www-data
     notify: restart apache
+
+# vim: ts=2 et nowrap autoindent
